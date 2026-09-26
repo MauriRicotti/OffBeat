@@ -18,7 +18,7 @@ offbeat/
 │   │   └── src/main/java/com/mauricioricotti/offbeat/mediascanner/
 │   │       └── MediaScannerPlugin.kt
 │   └── ...
-├── .github/workflows/build-apk.yml  # Pipeline de GitHub Actions
+├── .github/workflows/build-apk.yml  # Pipeline de GitHub Actions (en la raíz del repo)
 ├── capacitor.config.json       # Config de Capacitor (appId, nombre, webDir)
 └── package.json
 ```
@@ -49,7 +49,8 @@ Cada `git push` a `main`:
 
 1. GitHub Actions instala Node 24 + **JDK 21** + Android SDK.
    (JDK 21 es obligatorio: Capacitor 8 no compila con 17.)
-2. `npx cap copy android` copia `www/` al proyecto Android.
+2. `npx cap sync android` copia `www/` al proyecto Android y regenera
+   `capacitor-cordova-android-plugins/` (con solo `cap copy` no basta en un clone limpio).
 3. `./gradlew assembleDebug` compila (incluye el módulo Kotlin).
 4. Publica el APK como **artifact** `offbeat-debug`.
 
