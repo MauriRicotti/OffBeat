@@ -18,7 +18,7 @@ offbeat/
 │   │   └── src/main/java/com/mauricioricotti/offbeat/mediascanner/
 │   │       └── MediaScannerPlugin.kt
 │   └── ...
-├── .github/workflows/build-apk.yml  # Pipeline de GitHub Actions
+├── .github/workflows/build-apk.yml  # Pipeline de GitHub Actions (en la raíz del repo)
 ├── capacitor.config.json       # Config de Capacitor (appId, nombre, webDir)
 └── package.json
 ```
@@ -31,7 +31,7 @@ Se usa desde JS sin paquete npm, vía `window.Capacitor.Plugins.MediaScanner`:
 | Método | Devuelve |
 |---|---|
 | `requestPermission()` | `{ granted }` — flujo del diálogo del sistema (`READ_MEDIA_AUDIO` en Android 13+) |
-| `scanLibrary()` | `{ total, tracks: [{ id, title, artist, album, albumId, durationMs }] }` |
+| `scanLibrary()` | `{ total, tracks: [{ id, title, artist, album, albumId, durationMs, path }] }` — `path` es la ruta real del archivo (para reproducir con `Capacitor.convertFileSrc`) |
 | `getAlbumArt({ albumId })` | `{ hasArt, mime?, data? }` — carátula JPEG ~320 px en base64 |
 | `openAppSettings()` | abre Ajustes del sistema (para habilitar el permiso a mano) |
 
@@ -49,7 +49,8 @@ Cada `git push` a `main`:
 
 1. GitHub Actions instala Node 24 + **JDK 21** + Android SDK.
    (JDK 21 es obligatorio: Capacitor 8 no compila con 17.)
-2. `npx cap copy android` copia `www/` al proyecto Android.
+2. `npx cap sync android` copia `www/` al proyecto Android y regenera
+   `capacitor-cordova-android-plugins/` (con solo `cap copy` no basta en un clone limpio).
 3. `./gradlew assembleDebug` compila (incluye el módulo Kotlin).
 4. Publica el APK como **artifact** `offbeat-debug`.
 
@@ -59,7 +60,8 @@ Descarga: pestaña **Actions** → run → **Artifacts** → `offbeat-debug`.
 
 1. Pasá el APK al celular y tocálo; aceptá "Instalar aplicaciones desconocidas".
 2. Abrí OffBeat → "Conceder acceso" → aceptá el permiso de audio.
-3. Listá tus canciones, buscá por título/artista/álbum. Tocar una canción aún no reproduce (Etapa 3).
+3. Listá tus canciones, buscá por título/artista/álbum. Tocá una canción para
+   reproducirla (pantalla del reproductor con barra de progreso + mini-player).
 
 ⚠️ Cada build en CI firma con una clave debug distinta: si al actualizar Android dice
 *"No se instaló la app"*, desinstalá el anterior primero (no se pierde nada todavía).
@@ -74,5 +76,10 @@ Cada `commit` + `push` genera el APK nuevo en Actions.
 ## Estado de las etapas
 
 - [x] **Etapa 1** — Proyecto base + pipeline CI ("Hola OffBeat")
-- [x] **Etapa 2** — Plugin Kotlin MediaScanner + lista de canciones con carátulas (sin reproducción)
-- [ ] **Etapa 3** — (pendiente definir) reproductor con barra de progreso
+- [x] **Etapa 2** — Plugin Kotlin MediaScanner + lista de canciones con carátulas
+- [x] **Etapa 3** — Reproductor: pantalla de reproducción (carátula, barra de
+  progreso con seek, play/pause, anterior/siguiente, auto-avance) + mini-player
+  sobre la biblioteca. Se reproduce con `<audio>` sobre la ruta del archivo vía
+  `Capacitor.convertFileSrc`.
+- [ ] **Etapa 4** — (pendiente definir) p. ej. persistir la última pista,
+  notificación/controles de medios, keystore fija para el APK.
