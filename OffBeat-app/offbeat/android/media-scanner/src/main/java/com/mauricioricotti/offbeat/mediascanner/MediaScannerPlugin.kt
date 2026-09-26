@@ -29,7 +29,7 @@ import java.io.ByteArrayOutputStream
  * | Método | Devuelve |
  * |---|---|
  * | `requestPermission()` | `{ granted }` — diálogo del sistema (READ_MEDIA_AUDIO en Android 13+) |
- * | `scanLibrary()` | `{ total, tracks: [{ id, title, artist, album, albumId, durationMs }] }` |
+ * | `scanLibrary()` | `{ total, tracks: [{ id, title, artist, album, albumId, durationMs, path }] }` |
  * | `getAlbumArt({ albumId })` | `{ hasArt, mime?, data? }` — carátula JPEG ~320 px en base64 |
  * | `openAppSettings()` | abre Ajustes del sistema (para habilitar el permiso a mano) |
  *
@@ -81,7 +81,8 @@ class MediaScannerPlugin : Plugin() {
             MediaStore.Audio.Media.ARTIST,
             MediaStore.Audio.Media.ALBUM,
             MediaStore.Audio.Media.ALBUM_ID,
-            MediaStore.Audio.Media.DURATION
+            MediaStore.Audio.Media.DURATION,
+            MediaStore.Audio.Media.DATA
         )
 
         // Descarta timbres/notificaciones: solo lo marcado como música.
@@ -111,6 +112,7 @@ class MediaScannerPlugin : Plugin() {
                 val albumCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)
                 val albumIdCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
                 val durationCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+                val pathCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
 
                 while (cursor.moveToNext()) {
                     val track = JSObject()
@@ -120,6 +122,9 @@ class MediaScannerPlugin : Plugin() {
                     track.put("album", cursor.getString(albumCol) ?: "")
                     track.put("albumId", cursor.getLong(albumIdCol))
                     track.put("durationMs", cursor.getLong(durationCol))
+                    // Ruta real del archivo: el web la pasa por
+                    // Capacitor.convertFileSrc() para reproducirla en <audio>.
+                    track.put("path", cursor.getString(pathCol) ?: "")
                     tracks.put(track)
                 }
             }

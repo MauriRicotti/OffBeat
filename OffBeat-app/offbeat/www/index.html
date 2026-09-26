@@ -55,6 +55,73 @@
         <footer id="lib-footer" class="lib-footer"></footer>
       </section>
 
+      <!-- Estado: reproductor (Etapa 3) -->
+      <section id="view-player" class="player" hidden>
+        <div class="player-top">
+          <button id="btn-close-player" class="btn-icon" aria-label="Volver">
+            <svg viewBox="0 0 24 24" width="26" height="26">
+              <path
+                d="M6 9l6 6 6-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <span class="player-label">Reproduciendo desde la biblioteca</span>
+          <span class="player-top-spacer"></span>
+        </div>
+
+        <div id="player-art" class="player-art"><span>♪</span></div>
+
+        <div class="player-meta">
+          <div id="player-title" class="player-title">—</div>
+          <div id="player-artist" class="player-artist"></div>
+        </div>
+
+        <div class="player-progress">
+          <div id="progress" class="progress" role="slider" aria-label="Progreso">
+            <div class="progress-track">
+              <div id="progress-fill" class="progress-fill"></div>
+              <div id="progress-thumb" class="progress-thumb"></div>
+            </div>
+          </div>
+          <div class="player-times">
+            <span id="time-current">0:00</span>
+            <span id="time-total">0:00</span>
+          </div>
+        </div>
+
+        <div class="player-controls">
+          <button id="btn-prev" class="btn-icon" aria-label="Anterior">
+            <svg viewBox="0 0 24 24" width="30" height="30">
+              <path d="M7 6v12M20 6l-10 6 10 6z" fill="currentColor" />
+            </svg>
+          </button>
+          <button id="btn-play" class="btn-play" aria-label="Reproducir">
+            <svg id="icon-play" viewBox="0 0 24 24" width="32" height="32">
+              <path d="M8 5.5v13l11-6.5z" fill="currentColor" />
+            </svg>
+            <svg
+              id="icon-pause"
+              viewBox="0 0 24 24"
+              width="32"
+              height="32"
+              hidden
+            >
+              <path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor" />
+            </svg>
+          </button>
+          <button id="btn-next" class="btn-icon" aria-label="Siguiente">
+            <svg viewBox="0 0 24 24" width="30" height="30">
+              <path d="M17 6v12M4 6l10 6-10 6z" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
+      </section>
+
       <!-- Modo navegador web (no app) -->
       <section id="view-web" class="card" hidden>
         <h2>Hola OffBeat</h2>
@@ -65,7 +132,28 @@
       </section>
     </main>
 
+    <!-- Mini-player (Etapa 3): barra flotante sobre la biblioteca -->
+    <div id="mini-player" class="mini-player" hidden>
+      <div class="mini-progress">
+        <div id="mini-fill" class="mini-fill"></div>
+      </div>
+      <button id="mini-open" class="mini-open">
+        <div id="mini-art" class="mini-art"><span>♪</span></div>
+        <div id="mini-title" class="mini-title">—</div>
+      </button>
+      <button id="mini-toggle" class="btn-icon mini-toggle" aria-label="Reproducir">
+        <svg id="mini-icon-play" viewBox="0 0 24 24" width="26" height="26">
+          <path d="M8 5.5v13l11-6.5z" fill="currentColor" />
+        </svg>
+        <svg id="mini-icon-pause" viewBox="0 0 24 24" width="26" height="26" hidden>
+          <path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor" />
+        </svg>
+      </button>
+    </div>
+
     <div id="toast" class="toast" hidden></div>
+
+    <audio id="audio" preload="metadata"></audio>
 
     <script src="app.js"></script>
   </body>
