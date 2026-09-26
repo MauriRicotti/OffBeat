@@ -1,0 +1,17 @@
+{
+  "name": "offbeat",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OffBeat — reproductor de audio local, 100% offline (Capacitor)",
+  "scripts": {
+    "sync": "cap sync android",
+    "copy": "cap copy android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/core": "^8.5.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.2"
+  }
+}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#030303" />
+    <title>OffBeat</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="logo"><span class="logo-acc">Off</span>Beat</div>
+      <span id="mode-badge" class="badge-sm">…</span>
+    </header>
+
+    <main>
+      <!-- Estado: pedir permiso -->
+      <section id="view-permission" class="card" hidden>
+        <h2>Tu música</h2>
+        <p>
+          OffBeat necesita acceso a tu biblioteca de audio para listar tus
+          canciones. Todo se procesa en el dispositivo, sin internet.
+        </p>
+        <button id="btn-permission" class="btn-primary">Conceder acceso</button>
+        <div id="permission-denied" class="hint" hidden>
+          <p>
+            Permiso denegado. Habilitalo en
+            <strong>Ajustes → Aplicaciones → OffBeat → Permisos</strong> y volvé
+            a intentar.
+          </p>
+          <button id="btn-settings" class="btn-ghost">Abrir Ajustes</button>
+        </div>
+      </section>
+
+      <!-- Estado: escaneando -->
+      <section id="view-loading" class="card" hidden>
+        <div class="spinner"></div>
+        <p>Escaneando tu biblioteca…</p>
+      </section>
+
+      <!-- Estado: biblioteca -->
+      <section id="view-library" hidden>
+        <div class="search-row">
+          <input
+            id="search"
+            type="search"
+            placeholder="Buscar en tu biblioteca…"
+            autocomplete="off"
+          />
+        </div>
+        <ul id="track-list" class="track-list"></ul>
+        <footer id="lib-footer" class="lib-footer"></footer>
+      </section>
+
+      <!-- Modo navegador web (no app) -->
+      <section id="view-web" class="card" hidden>
+        <h2>Hola OffBeat</h2>
+        <p>
+          Estás viendo esto en un navegador web. La app (escanear tu
+          biblioteca) solo funciona dentro de la app Android.
+        </p>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

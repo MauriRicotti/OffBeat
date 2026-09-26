@@ -1,0 +1,269 @@
+/* OffBeat — tema oscuro estilo YouTube Music (Etapa 2: biblioteca) */
+:root {
+  --bg: #030303;
+  --surface: #161616;
+  --surface-2: #1f1f1f;
+  --border: #2a2a2a;
+  --text: #fff;
+  --text-dim: #aaa;
+  --accent: #ff0033;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- topbar ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(3, 3, 3, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.logo-acc {
+  color: var(--accent);
+}
+
+.badge-sm {
+  font-size: 11px;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  background: var(--surface);
+}
+
+main {
+  padding: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ---------- tarjetas / estados ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin-top: 12vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.card h2 {
+  font-size: 20px;
+}
+
+.card p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.btn-primary {
+  margin-top: 8px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:active {
+  opacity: 0.85;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.hint {
+  width: 100%;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.hint p {
+  font-size: 13px;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--surface-2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- buscador ---------- */
+.search-row {
+  margin-bottom: 12px;
+}
+
+#search {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 11px 18px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+
+#search:focus {
+  border-color: #444;
+}
+
+#search::placeholder {
+  color: #666;
+}
+
+/* ---------- lista de canciones ---------- */
+.track-list {
+  list-style: none;
+}
+
+.track {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.track:active {
+  background: var(--surface-2);
+}
+
+.track-art {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background-color: var(--surface-2);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* nota musical de placeholder mientras no carga la carátula */
+.track-art::before {
+  content: "♪";
+  font-size: 22px;
+  color: #4d4d4d;
+}
+
+.track-art.has-art::before {
+  content: none;
+}
+
+.track-info {
+  min-width: 0;
+}
+
+.track-title {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-meta {
+  margin-top: 3px;
+  font-size: 13px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-duration {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.track-list .empty {
+  padding: 32px 10px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.lib-footer {
+  padding: 20px 10px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+/* ---------- toast ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  background: #262626;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 13px;
+  z-index: 50;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
